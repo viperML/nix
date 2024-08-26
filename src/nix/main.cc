@@ -21,6 +21,7 @@
 #include "flake/flake.hh"
 #include "self-exe.hh"
 
+#include <cstdlib>
 #include <sys/types.h>
 #include <regex>
 #include <nlohmann/json.hpp>
@@ -559,6 +560,8 @@ int main(int argc, char * * argv)
     // Increase the default stack size for the evaluator and for
     // libstdc++'s std::regex.
     nix::setStackSize(64 * 1024 * 1024);
+
+    setenv("IN_NIX", "1", 1);
 
     return nix::handleExceptions(argv[0], [&]() {
         nix::mainWrapped(argc, argv);
